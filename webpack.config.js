@@ -11,7 +11,7 @@ module.exports = {
   externals: [nodeExternals()],
 
   output: {
-    path: path.resolve('server-build'),
+    path: path.resolve('build'),
     filename: 'server.js',
   },
 

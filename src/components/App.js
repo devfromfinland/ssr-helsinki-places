@@ -3,18 +3,16 @@ import PlacesList from './PlaceList'
 
 // TODO: add state
 
+// TODO: add Pagination
+
 function App({ places }) {
-  const [context, setContext] = useState({
-    itemsPerPage: 10,
-    page: 1,
-  })
+  const [count, setCount] = useState(0)
 
   return (
-    // <AppContext.Provider value={{ context, setContext }}>
-      <div>
-        <PlacesList places={places} />
-      </div>
-    // </AppContext.Provider>
+    <div>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+      <PlacesList places={places} />
+    </div>
   )
 }
 

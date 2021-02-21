@@ -4,6 +4,7 @@ import express from 'express'
 import fetch from 'node-fetch'
 import { DEFAULT_PAGE_SIZE, filterData } from '../utils/helpers'
 import App from '../components/App'
+import Html from '../components/Html'
 
 const router = express.Router()
 
