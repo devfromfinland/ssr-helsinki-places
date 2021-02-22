@@ -30,14 +30,11 @@ router.use('*', (req, res, next) => {
 
 router.get('/:page/', async (req, res) => {
   // TODO: check validity of page & size input
-  console.log('params', req.params)
 
   const page = req.params.page ? parseInt(req.params.page, 10) : 1
   const size = req.query.size ? parseInt(req.query.size, 10) : DEFAULT_PAGE_SIZE
-  const scripts = ['client.js']
 
-  console.log(`page: ${page}, size: ${size}`)
-  console.log(typeof page, typeof size)
+  const scripts = ['client.js']
 
   try {
     const response = await fetch('http://open-api.myhelsinki.fi/v1/places/')
@@ -50,8 +47,6 @@ router.get('/:page/', async (req, res) => {
       totalCount: data.length
     }
 
-    console.log('num of pages', Math.ceil(data.length / size))
-
     const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
     const html = ReactDOMServer.renderToStaticMarkup(
       <Html
@@ -60,8 +55,8 @@ router.get('/:page/', async (req, res) => {
         context={context}
       />
     )
-    res.send(`<!doctype html>${html}`)
 
+    res.send(`<!doctype html>${html}`)
   } catch (err) {
     console.log(`error while fetching data: ${err}`)
     res.send(`<!doctype html><div id="root">Something went wrong!</div>`)

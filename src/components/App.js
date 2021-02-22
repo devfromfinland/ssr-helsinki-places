@@ -3,15 +3,12 @@ import PlacesList from './PlaceList'
 import Pagination from './Pagination'
 
 function App({ places, ...props }) {
-  // TODO: to add context
+  // TODO: to add context if needed
 
-  // TODO: to add react-router & pagination
+  // TODO: to add react-router if needed
 
   return (
     <div>
-      {/* <button onClick={() => setCount(count + 1)}>{count}</button>
-      <button>Next page</button>
-      <div>page size: {size}</div> */}
       <Pagination {...props} />
       <PlacesList places={places} />
     </div>
