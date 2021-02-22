@@ -31,20 +31,22 @@ router.use('*', (req, res, next) => {
 // })
 
 router.get('/:page', async (req, res) => {
-  const { page } = req.params
-  const size = req.query.size ? req.query.size : DEFAULT_PAGE_SIZE
-  const scripts = ['client.js']
+  // TODO: check validity of page & size input
 
-  // TODO: check validity of page & size
+  const page = req.params.page ? parseInt(req.params.page) : 1
+  const size = req.query.size ? parseInt(req.query.size) : DEFAULT_PAGE_SIZE
+  const scripts = ['client.js']
 
   try {
     const response = await fetch('http://open-api.myhelsinki.fi/v1/places/')
-    const data = await response.json()
-    const places = filterData(data.data, size, page)
+    const { data } = await response.json()
+    const places = filterData(data, size, page)
+    // const places = data.slice((page - 1) * size, (page - 1) * size + size)
     const context = {
       places,
       page,
       size,
+      totalCount: data.length
     }
 
     const mainContent = ReactDOMServer.renderToString(<App {...context}/>)

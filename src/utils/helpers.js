@@ -1,9 +1,9 @@
 const filterData = (dataArr, pageSize, pageNumber) => {
   // TODO: check if reaching the final items
-  let remainingCount = pageSize
-  const pos = pageNumber - 1
-
-  return dataArr.slice(pageSize * pos, pageSize * pos + remainingCount)
+  
+  const index = (pageNumber - 1) * pageSize
+  console.log('filter', index, index + pageSize)
+  return dataArr.slice(index, index + pageSize)
 }
 
 module.exports = {
