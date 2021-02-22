@@ -13,7 +13,11 @@ const router = express.Router()
 // https://stackoverflow.com/a/57915021
 router.use('*', (req, res, next) => {
   req.url = path.basename(req.originalUrl)
-  express.static(__dirname)(req, res, next)
+  console.log('environment', process.env.NODE_ENV)
+  const staticPath = process.env.NODE_ENV === 'development'
+    ? path.join(path.dirname(require.main.filename) + '/build')
+    : path.join(__dirname)
+  express.static(staticPath)(req, res, next)
 })
 
 router.get('/:page', (req, res) => {

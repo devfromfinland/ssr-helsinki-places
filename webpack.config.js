@@ -14,7 +14,7 @@ const common = {
 
 const clientConfig = {
   ...common,
-  mode: 'development',
+  mode: process.env.NODE_ENV ? process.env.NODE_ENV : 'development',
   entry: {
     client: './src/client.js'
   },
@@ -28,7 +28,7 @@ const clientConfig = {
 
 const serverConfig = {
   ...common,
-  mode: 'development',
+  mode: process.env.NODE_ENV ? process.env.NODE_ENV : 'development',
   entry: {
     server: './index.js'
   },
