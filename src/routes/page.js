@@ -6,11 +6,20 @@ import { DEFAULT_PAGE_SIZE, filterData } from '../utils/helpers'
 import App from '../components/App'
 import Html from '../components/Html'
 
+// const React = require('react')
+// const ReactDOMServer = require('react-dom/server')
+// const express = require('express')
+// const fetch = require('node-fetch')
+// const { DEFAULT_PAGE_SIZE, filterData } = require('../utils/helpers')
+// const App = require('../components/App')
+// const Html = require('../components/Html')
+
 const router = express.Router()
 
 router.get('/:page', (req, res) => {
   // with default page size (10)
   const { page } = req.params
+  const scripts = ['client.js']
 
   // TODO: check validity of page & size
 
@@ -20,7 +29,13 @@ router.get('/:page', (req, res) => {
     .then(result => {
       console.log('result', result)
       // TODO: Render properly here
-      const html = ReactDOMServer.renderToString(<App places={result} />)
+      const mainContent = ReactDOMServer.renderToString(<App places={result} />)
+      const html = ReactDOMServer.renderToStaticMarkup(
+        <Html
+          children={mainContent}
+          scripts={scripts}
+        />
+      )
       res.send(`<!doctype html><div id="app">${html}</div>`)
       // res.send(JSON.stringify(result))
     })
@@ -49,4 +64,5 @@ router.get('/:page/:size', async (req, res) => {
   }
 })
 
-module.exports = router
+// module.exports = router
+export default router
