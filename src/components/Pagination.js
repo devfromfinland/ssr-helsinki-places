@@ -1,9 +1,7 @@
 import React from 'react'
-import { useAppContext } from '../lib/contextLib'
 
-const Pagination = () => {
-  const { context, setContext } = useAppContext()
-  const { page } = context
+const Pagination = ({ page, size, totalCount }) => {
+  const numPages = Math.ceil(totalCount / size)
 
   const handlePrev = (e) => {
     e.preventDefault()
