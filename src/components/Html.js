@@ -1,3 +1,6 @@
+// Page template from Bartek Dybowski
+// https://github.com/burczu/react-server-side-rendering-example/blob/master/src/components/Html.js
+
 import React from 'react'
 
 const Html = ({ children, initialState, scripts }) => (
@@ -8,7 +11,7 @@ const Html = ({ children, initialState, scripts }) => (
     </head>
     <body>
       <div
-        id="app"
+        id="root"
         dangerouslySetInnerHTML={{ __html: children }}
       />
 

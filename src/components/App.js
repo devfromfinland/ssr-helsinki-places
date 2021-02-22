@@ -11,7 +11,7 @@ function App({ places }) {
   return (
     <div>
       <button onClick={() => setCount(count + 1)}>{count}</button>
-      <PlacesList places={places} />
+      {/* <PlacesList places={places} /> */}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -7,8 +7,8 @@ router.get('/', (req, res) => {
   // res.send('Hello world!')
   res.send(`
     <!doctype html>
-    <div id="app">Hello world</div>
+    <div id="root">Hello world</div>
   `)
 })
 
-module.exports = router
+export default router
