@@ -3,7 +3,7 @@
 
 import React from 'react'
 
-const Html = ({ children, initialState, scripts }) => (
+const Html = ({ children, context, scripts }) => (
   <html>
     <head>
       <meta charSet="UTF-8" />
@@ -15,10 +15,10 @@ const Html = ({ children, initialState, scripts }) => (
         dangerouslySetInnerHTML={{ __html: children }}
       />
 
-      {initialState && (
+      {context && (
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.APP_STATE=${JSON.stringify(initialState)}`
+            __html: `window.APP_CONTEXT=${JSON.stringify(context)}`
           }}
         />
       )}

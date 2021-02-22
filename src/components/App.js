@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import PlacesList from './PlaceList'
 
-// TODO: add state
+function App({ places, page, size }) {
+  const [count, setCount] = useState(parseInt(page))
 
-// TODO: add Pagination
+  // TODO: to add context
 
-function App({ places }) {
-  const [count, setCount] = useState(0)
+  // TODO: to add react-router & pagination
 
   return (
     <div>
       <button onClick={() => setCount(count + 1)}>{count}</button>
+      <button>Next page</button>
+      <div>page size: {size}</div>
       <PlacesList places={places} />
     </div>
   )

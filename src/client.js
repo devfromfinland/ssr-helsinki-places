@@ -2,4 +2,4 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
 
-ReactDOM.hydrate(<App />, document.getElementById('root'))
+ReactDOM.hydrate(<App {...window.APP_CONTEXT} />, document.getElementById('root'))

@@ -20,17 +20,19 @@ router.use('*', (req, res, next) => {
   express.static(staticPath)(req, res, next)
 })
 
-router.get('/:page', (req, res) => {
-  // with default page size (10)
-  const { page } = req.params
-  res.send(`
-    <!doctype html>
-    <div id="root">To render page ${page} with default page size = 10</div>
-  `)
-})
+// use DEFAULT_PAGE_SIZE = 10
+// router.get('/:page', (req, res) => {
+//   // with default page size (10)
+//   const { page } = req.params
+//   res.send(`
+//     <!doctype html>
+//     <div id="root">To render page ${page} with default page size = 10</div>
+//   `)
+// })
 
-router.get('/:page/:size', async (req, res) => {
-  const { page, size } = req.params
+router.get('/:page', async (req, res) => {
+  const { page } = req.params
+  const size = req.query.size ? req.query.size : DEFAULT_PAGE_SIZE
   const scripts = ['client.js']
 
   // TODO: check validity of page & size
@@ -39,12 +41,18 @@ router.get('/:page/:size', async (req, res) => {
     const response = await fetch('http://open-api.myhelsinki.fi/v1/places/')
     const data = await response.json()
     const places = filterData(data.data, size, page)
+    const context = {
+      places,
+      page,
+      size,
+    }
 
-    const mainContent = ReactDOMServer.renderToString(<App />)
+    const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
     const html = ReactDOMServer.renderToStaticMarkup(
       <Html
         children={mainContent}
         scripts={scripts}
+        context={context}
       />
     )
     res.send(`<!doctype html>${html}`)
