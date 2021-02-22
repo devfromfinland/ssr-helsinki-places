@@ -12,42 +12,45 @@ const router = express.Router()
 // fix static path for dynamic route
 // https://stackoverflow.com/a/57915021
 router.use('*', (req, res, next) => {
-  req.url = path.basename(req.originalUrl)
-  console.log('environment', process.env.NODE_ENV)
-  const staticPath = process.env.NODE_ENV === 'development'
-    ? path.join(path.dirname(require.main.filename) + '/build')
-    : path.join(__dirname)
-  express.static(staticPath)(req, res, next)
+  const regex = /(.*?)\.js/g
+
+  // only serve .js files from static folder
+  if (req.originalUrl.match(regex)) {
+    req.url = path.basename(req.originalUrl)
+
+    const staticPath = process.env.NODE_ENV === 'development'
+      ? path.join(path.dirname(require.main.filename) + '/build')
+      : path.join(__dirname)
+    
+    express.static(staticPath)(req, res, next)
+  } else {
+    next()
+  }
 })
 
-// use DEFAULT_PAGE_SIZE = 10
-// router.get('/:page', (req, res) => {
-//   // with default page size (10)
-//   const { page } = req.params
-//   res.send(`
-//     <!doctype html>
-//     <div id="root">To render page ${page} with default page size = 10</div>
-//   `)
-// })
-
-router.get('/:page', async (req, res) => {
+router.get('/:page/', async (req, res) => {
   // TODO: check validity of page & size input
+  console.log('params', req.params)
 
-  const page = req.params.page ? parseInt(req.params.page) : 1
-  const size = req.query.size ? parseInt(req.query.size) : DEFAULT_PAGE_SIZE
+  const page = req.params.page ? parseInt(req.params.page, 10) : 1
+  const size = req.query.size ? parseInt(req.query.size, 10) : DEFAULT_PAGE_SIZE
   const scripts = ['client.js']
+
+  console.log(`page: ${page}, size: ${size}`)
+  console.log(typeof page, typeof size)
 
   try {
     const response = await fetch('http://open-api.myhelsinki.fi/v1/places/')
     const { data } = await response.json()
     const places = filterData(data, size, page)
-    // const places = data.slice((page - 1) * size, (page - 1) * size + size)
     const context = {
       places,
       page,
       size,
       totalCount: data.length
     }
+
+    console.log('num of pages', Math.ceil(data.length / size))
 
     const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
     const html = ReactDOMServer.renderToStaticMarkup(

@@ -1,8 +1,12 @@
 const filterData = (dataArr, pageSize, pageNumber) => {
-  // TODO: check if reaching the final items
-  
   const index = (pageNumber - 1) * pageSize
-  console.log('filter', index, index + pageSize)
+  const numPages = Math.ceil(dataArr.length / pageSize)
+
+  // check if reaching the final page
+  if (pageNumber === numPages) {
+    return dataArr.slice(index, dataArr.length)
+  }
+  
   return dataArr.slice(index, index + pageSize)
 }
 
