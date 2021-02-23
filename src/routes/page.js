@@ -41,6 +41,13 @@ router.get('/:page/', async (req, res) => {
 
   // check from cache first
   try {
+    let totalCount = null
+
+    redisClient.get('count', (err, count) => {
+      if (err) throw err
+      if (count) totalCount = count
+    })
+
     redisClient.get(redisKey, async (err, data) => {
       if (err) throw err
 
@@ -53,6 +60,12 @@ router.get('/:page/', async (req, res) => {
         const result = await response.json()
         places = result.data
 
+        // check totalCount and update if different from cache
+        if (!totalCount || totalCount !== parseInt(result.meta.count)) {
+          totalCount = parseInt(result.meta.count)
+          redisClient.set('count', totalCount)
+        }
+
         // save to cache with expiration = 1 day
         redisClient.setex(redisKey, 24 * 60 * 60, JSON.stringify(result.data))
       }
@@ -61,7 +74,7 @@ router.get('/:page/', async (req, res) => {
         places,
         page,
         size,
-        totalCount: 2354 // TODO: get up-to-date total data length
+        totalCount,
       }
 
       const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
