@@ -3,9 +3,11 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import fetch from 'node-fetch'
-import { DEFAULT_PAGE_SIZE, filterData } from '../utils/helpers'
+import { DEFAULT_PAGE_SIZE } from '../utils/helpers'
 import App from '../components/App'
 import Html from '../components/Html'
+import redisClient from '../lib/redisLib'
+import { RedisClient } from 'redis'
 
 const router = express.Router()
 
@@ -33,30 +35,49 @@ router.get('/:page/', async (req, res) => {
 
   const page = req.params.page ? parseInt(req.params.page, 10) : 1
   const size = req.query.size ? parseInt(req.query.size, 10) : DEFAULT_PAGE_SIZE
+  const redisKey = req.originalUrl
 
   const scripts = ['client.js']
 
+  // check from cache first
   try {
-    const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}`)
-    const { data } = await response.json()
-    const context = {
-      places: data,
-      page,
-      size,
-      totalCount: 2354 // TODO: get up-to-date total data length
-    }
+    redisClient.get(redisKey, async (err, data) => {
+      if (err) throw err
 
-    const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
-    const html = ReactDOMServer.renderToStaticMarkup(
-      <Html
-        children={mainContent}
-        scripts={scripts}
-        context={context}
-      />
-    )
+      let places = null
 
-    res.send(`<!doctype html>${html}`)
+      if (data) {
+        places = JSON.parse(data)
+      } else {
+        const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}`)
+        const result = await response.json()
+        places = result.data
+
+        // save to cache with expiration = 1 day
+        redisClient.setex(redisKey, 24 * 60 * 60, JSON.stringify(result.data))
+      }
+
+      const context = {
+        places,
+        page,
+        size,
+        totalCount: 2354 // TODO: get up-to-date total data length
+      }
+
+      const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
+      const html = ReactDOMServer.renderToStaticMarkup(
+        <Html
+          children={mainContent}
+          scripts={scripts}
+          context={context}
+        />
+      )
+
+      res.send(`<!doctype html>${html}`)
+    })
   } catch (err) {
+    // TODO: send error flag to client, then client will retry automatically for a few times
+
     console.log(`error while fetching data: ${err}`)
     res.send(`<!doctype html><div id="root">Couldn't load data!</div>`)
   }
