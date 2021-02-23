@@ -37,14 +37,13 @@ router.get('/:page/', async (req, res) => {
   const scripts = ['client.js']
 
   try {
-    const response = await fetch('http://open-api.myhelsinki.fi/v1/places/')
+    const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}`)
     const { data } = await response.json()
-    const places = filterData(data, size, page)
     const context = {
-      places,
+      places: data,
       page,
       size,
-      totalCount: data.length
+      totalCount: 2354 // TODO: get up-to-date total data length
     }
 
     const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
@@ -59,7 +58,7 @@ router.get('/:page/', async (req, res) => {
     res.send(`<!doctype html>${html}`)
   } catch (err) {
     console.log(`error while fetching data: ${err}`)
-    res.send(`<!doctype html><div id="root">Something went wrong!</div>`)
+    res.send(`<!doctype html><div id="root">Couldn't load data!</div>`)
   }
 })
 

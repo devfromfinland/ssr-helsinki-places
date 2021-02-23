@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { DEFAULT_PAGE_SIZE } from '../utils/helpers'
 
 const Pagination = ({ page, size, totalCount }) => {
-  const [goTo, setGoTo] = useState(0)
+  const [goTo, setGoTo] = useState('')
   const [itemsPerPage, setItemsPerPage] = useState(size)
   const numPages = Math.ceil(totalCount / size)
 
