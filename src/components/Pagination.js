@@ -53,6 +53,7 @@ const Pagination = ({ page, size, totalCount }) => {
 
   return (
     <div style={{ marginBottom: '10px' }}>
+      <div>Total items: {totalCount}</div>
       <div>
         <span>Current page: {page}</span>
 

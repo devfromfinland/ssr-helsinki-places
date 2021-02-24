@@ -7,7 +7,7 @@ const Html = ({ children, context, scripts }) => (
   <html>
     <head>
       <meta charSet="UTF-8" />
-      <title>Server Side Rendered React App!!</title>
+      <title>Helsinki places</title>
     </head>
     <body>
       <div
