@@ -1170,3 +1170,101 @@ export const places12 = [
     }
   }
 ]
+
+export const places1 = [
+  {
+    'id': '653',
+    'name': {
+      'fi': 'A. Tillander',
+      'en': 'A. Tillander',
+      'sv': 'A. Tillander',
+      'zh': null
+    },
+    'source_type': {
+      'id': 2,
+      'name': 'Matko'
+    },
+    'info_url': 'http://www.alexandertillander.fi',
+    'modified_at': '2019-08-21T14:51:58.000Z',
+    'location': {
+      'lat': 60.168922424316406,
+      'lon': 24.94364356994629,
+      'address': {
+        'street_address': 'Aleksanterinkatu 17',
+        'postal_code': '00100',
+        'locality': 'Helsinki'
+      }
+    },
+    'description': {
+      'intro': null,
+      'body': 'Jewellery shop, also exhibitions',
+      'images': [
+        {
+          'url': 'https://edit.myhelsinki.fi/sites/default/files/styles/api_1980x1020/public/2017-10/14657520_1627162420917017_2082522418259513419_n.jpg?h=1555b8b2&itok=cv8nhamq',
+          'copyright_holder': 'A. Tillander',
+          'license_type': {
+            'id': 1,
+            'name': 'All rights reserved.'
+          }
+        }
+      ]
+    },
+    'tags': [
+      {
+        'id': 'matko1:9',
+        'name': 'SHOPPING'
+      },
+      {
+        'id': 'matko2:72',
+        'name': 'Jewellery'
+      }
+    ],
+    'opening_hours': {
+      'hours': [
+        {
+          'weekday_id': 1,
+          'opens': '10:00:00',
+          'closes': '18:00:00',
+          'open24h': false
+        },
+        {
+          'weekday_id': 2,
+          'opens': '10:00:00',
+          'closes': '18:00:00',
+          'open24h': false
+        },
+        {
+          'weekday_id': 3,
+          'opens': '10:00:00',
+          'closes': '18:00:00',
+          'open24h': false
+        },
+        {
+          'weekday_id': 4,
+          'opens': '10:00:00',
+          'closes': '18:00:00',
+          'open24h': false
+        },
+        {
+          'weekday_id': 5,
+          'opens': '10:00:00',
+          'closes': '18:00:00',
+          'open24h': false
+        },
+        {
+          'weekday_id': 6,
+          'opens': '10:00:00',
+          'closes': '17:00:00',
+          'open24h': false
+        },
+        {
+          'weekday_id': 7,
+          'opens': null,
+          'closes': null,
+          'open24h': false
+        }
+      ],
+      'openinghours_exception': ''
+    }
+  }
+]

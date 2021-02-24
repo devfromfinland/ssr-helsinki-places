@@ -3,9 +3,9 @@ import path from 'path'
 import indexRouter from './routes/index'
 import placesRouter from './routes/places'
 
-const PORT = 3001
-
 const app = express()
+
+const PORT = 3001
 
 // fix static path for dynamic route
 // https://stackoverflow.com/a/57915021
@@ -29,6 +29,10 @@ app.use('*', (req, res, next) => {
 app.use('/', indexRouter)
 app.use('/places', placesRouter)
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+  })
+}
+
+export default app

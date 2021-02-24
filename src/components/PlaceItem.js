@@ -15,7 +15,7 @@ const PlaceItem = ({ place }) => {
   const { street_address, postal_code, locality } = place.location?.address
 
   return (
-    <Wrapper>
+    <Wrapper data-testid='place-item-element'>
       <Name>{place.name[lang]}</Name>
       <Address>{`${street_address}, ${postal_code} ${locality}`}</Address>
       <div>{status}</div>
