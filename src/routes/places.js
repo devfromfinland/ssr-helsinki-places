@@ -5,7 +5,7 @@ import fetch from 'node-fetch'
 import { DEFAULT_PAGE_SIZE, DEFAULT_LANGUAGE } from '../utils/helpers'
 import App from '../components/App'
 import Html from '../components/Html'
-import redisClient from '../lib/redisLib'
+import { redisClient } from '../lib/redisLib'
 
 const router = express.Router()
 
