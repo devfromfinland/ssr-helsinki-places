@@ -39,9 +39,14 @@ const checkOpeningStatus = (openingHours) => {
   return 'Closed'
 }
 
+const sum = (a, b) => {
+  return a + b
+}
+
 module.exports = {
   DEFAULT_PAGE_SIZE: 10,
   DEFAULT_PAGE: 1,
   DEFAULT_LANGUAGE: 'en',
   checkOpeningStatus,
+  sum,
 }
