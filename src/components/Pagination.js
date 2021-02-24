@@ -7,9 +7,13 @@ const Pagination = ({ page, size, totalCount }) => {
   const numPages = Math.ceil(totalCount / size)
 
   const redirect = (newPage) => {
-    size === DEFAULT_PAGE_SIZE
-      ? window.location.href = `/page/${newPage}`
-      : window.location.href = `/page/${newPage}?size=${size}`
+    if (size === DEFAULT_PAGE_SIZE && newPage === 1) {
+      window.location.href = `/places`
+    } else if (size === DEFAULT_PAGE_SIZE) {
+      window.location.href = `/places/?page=${newPage}`
+    } else {
+      window.location.href = `/places/?page=${newPage}?size=${size}`
+    }
   }
 
   const handlePrev = (e) => {
@@ -40,11 +44,11 @@ const Pagination = ({ page, size, totalCount }) => {
     e.preventDefault()
 
     if (itemsPerPage >= 1 && itemsPerPage <= 50) {
-      window.location.href = `/page/1?size=${itemsPerPage}`
+      window.location.href = `/places/?size=${itemsPerPage}`
     } else {
-        // TODO: show notification
-        console.log('items per page should be > 0 and < 50')
-      }
+      // TODO: show notification
+      console.log('items per page should be > 0 and < 50')
+    }
   }
 
   return (

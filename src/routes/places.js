@@ -1,40 +1,20 @@
-import path from 'path'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import fetch from 'node-fetch'
-import { DEFAULT_PAGE_SIZE } from '../utils/helpers'
+import { DEFAULT_PAGE_SIZE, DEFAULT_LANGUAGE } from '../utils/helpers'
 import App from '../components/App'
 import Html from '../components/Html'
 import redisClient from '../lib/redisLib'
-import { RedisClient } from 'redis'
 
 const router = express.Router()
 
-// fix static path for dynamic route
-// https://stackoverflow.com/a/57915021
-router.use('*', (req, res, next) => {
-  const regex = /(.*?)\.js/g
-
-  // only serve .js files from static folder
-  if (req.originalUrl.match(regex)) {
-    req.url = path.basename(req.originalUrl)
-
-    const staticPath = process.env.NODE_ENV === 'development'
-      ? path.join(path.dirname(require.main.filename) + '/build')
-      : path.join(__dirname)
-    
-    express.static(staticPath)(req, res, next)
-  } else {
-    next()
-  }
-})
-
-router.get('/:page/', async (req, res) => {
+router.get('/', async (req, res) => {
   // TODO: check validity of page & size input
 
-  const page = req.params.page ? parseInt(req.params.page, 10) : 1
+  const page = req.query.page ? parseInt(req.query.page, 10) : 1
   const size = req.query.size ? parseInt(req.query.size, 10) : DEFAULT_PAGE_SIZE
+  const lang = req.query.lang ? req.query.lang : DEFAULT_LANGUAGE
   const redisKey = req.originalUrl
 
   const scripts = ['client.js']
@@ -56,7 +36,7 @@ router.get('/:page/', async (req, res) => {
       if (data) {
         places = JSON.parse(data)
       } else {
-        const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}`)
+        const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
         const result = await response.json()
         places = result.data
 
