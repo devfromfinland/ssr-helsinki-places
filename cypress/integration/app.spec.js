@@ -1,15 +1,16 @@
-it('Home page can be load and navigate to places', () => {
-  cy.request('/').should((res) => {
-    expect(res.status).to.equal(200)
-    expect(res.headers['content-type']).to.have.string('text/html')
-  })
+// it('Home page can be load and navigate to places', () => {
+//   cy.request('/').should((res) => {
+//     expect(res.status).to.equal(200)
+//     expect(res.headers['content-type']).to.have.string('text/html')
+//   })
 
-  cy.visit('/')
-  cy.document().its('contentType').should('eq', 'text/html')
-  cy.contains('Hello world!')
-  cy.contains('Start').click()
-  cy.url().should('include', '/places')
-})
+//   cy.visit('/')
+
+//   cy.document().its('contentType').should('eq', 'text/html')
+//   cy.contains('Hello world!')
+//   cy.contains('Start').click()
+//   cy.url().should('include', '/places')
+// })
 
 it('Places page show all items', () => {
   cy.request('/places').should((res) => {
@@ -30,14 +31,6 @@ it('Places page show all items', () => {
   cy.get('[data-cy=place-item]').should($items => {
     expect($items).to.have.length(10)
   })
-
-  // TODO: check markers are visible
-  // cy.get('[data-cy=input-size]').clear().type('1')
-  // cy.get('[data-cy=btn-update]').click()
-  // cy.get('#map').should('exist')
-  // cy.get('#map').children().eq(0).children().eq(0)
-
-  // TODO: check correct places (with mock api?)
 })
 
 it('Navigating between pages', () => {
@@ -91,3 +84,5 @@ it('Update page size', () => {
   })
   cy.get('[data-cy=err-page-size]').should('exist')
 })
+
+// TODO: check markers are visible on map
