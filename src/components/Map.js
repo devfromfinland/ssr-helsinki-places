@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import MarkerClusterer from '@googlemaps/markerclustererplus'
 import { extractLocations } from '../utils/helpers'
 
 function Map({ places, highlightMarker }) {
+  const [isError, setIsError] = useState(false)
   const loader = new Loader({
     apiKey: 'AIzaSyBtsHHByKghcjcYf9VPrAI398r6K1eavhg',
     version: 'weekly',
@@ -53,7 +54,13 @@ function Map({ places, highlightMarker }) {
           imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
         })
       })
+      .catch(err => {
+        console.log('error while loading google map')
+        setIsError(true)
+      })
   }, [places])
+
+  // if (isError) return <div id='map'></div>
 
   return (
     <div id='map' style={{
@@ -62,7 +69,9 @@ function Map({ places, highlightMarker }) {
       marginTop: '80px',
       marginLeft: '10px',
       marginRight: '10px',
-    }}></div>
+    }}>
+      { isError ? 'Could not load google map!' : null}
+    </div>
   )
 }
 

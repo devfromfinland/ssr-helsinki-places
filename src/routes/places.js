@@ -32,25 +32,29 @@ router.get('/', async (req, res) => {
       if (err) throw err
 
       let places = null
+      let isFailed = false
 
       if (data) {
         places = JSON.parse(data)
       } else {
-        const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
-        const result = await response.json()
-
-        // console.log('result', result)
-
-        places = result.data
-
-        // check totalCount and update if different from cache
-        if (!totalCount || totalCount !== parseInt(result.meta.count)) {
-          totalCount = parseInt(result.meta.count)
-          redisClient.set('count', totalCount)
+        try {
+          const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
+          const result = await response.json()
+          places = result.data
+  
+          // check totalCount and update if different from cache
+          if (!totalCount || totalCount !== parseInt(result.meta.count)) {
+            totalCount = parseInt(result.meta.count)
+            redisClient.set('count', totalCount)
+          }
+  
+          // save to cache with expiration = 1 day
+          redisClient.setex(redisKey, 24 * 60 * 60, JSON.stringify(result.data))
+        } catch (err) {
+          isFailed = true
+          console.log(`error while fetching data: ${err}`)
+          // res.send(`<!doctype html><div id="root">Couldn't load data!</div>`)
         }
-
-        // save to cache with expiration = 1 day
-        redisClient.setex(redisKey, 24 * 60 * 60, JSON.stringify(result.data))
       }
 
       const context = {
@@ -58,6 +62,7 @@ router.get('/', async (req, res) => {
         page,
         size,
         totalCount,
+        isFailed,
       }
 
       const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
@@ -72,10 +77,7 @@ router.get('/', async (req, res) => {
       res.send(`<!DOCTYPE html>${html}`)
     })
   } catch (err) {
-    // TODO: send error flag to client, then client will retry automatically for a few times
-
-    console.log(`error while fetching data: ${err}`)
-    res.send(`<!doctype html><div id="root">Couldn't load data!</div>`)
+    console.log(`error with redis ${err}`)
   }
 })
 
