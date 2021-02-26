@@ -52,13 +52,14 @@ const Pagination = ({ page, size, totalCount }) => {
       marginTop: '10px',
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      marginBottom: '10px',
     }}>
       <div>
         Page: {page}
         {' '}<button onClick={handlePrev}>Prev</button>
         {' '}<button onClick={handleNext}>Next</button>
-        <div>
+        <div style={{ marginTop: '5px' }}>
           Go to page: <input type='number' width={30} min={1} max={numPages} value={goTo} onChange={(e) => setGoTo(parseInt(e.target.value))}/>{' '}
           <button onClick={handleGoToPage}>Go</button>
         </div>

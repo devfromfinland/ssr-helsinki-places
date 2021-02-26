@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   // TODO: check session exist and redirect to proper path
 
   res.send(`
-    <!doctype html>
+    <!DOCTYPE html>
     <div id="root">
       Hello world! <a href='/places'>Start</a>
     </div>

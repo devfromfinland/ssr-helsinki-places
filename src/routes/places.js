@@ -69,7 +69,7 @@ router.get('/', async (req, res) => {
         />
       )
 
-      res.send(`<!doctype html>${html}`)
+      res.send(`<!DOCTYPE html>${html}`)
     })
   } catch (err) {
     // TODO: send error flag to client, then client will retry automatically for a few times

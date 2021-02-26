@@ -39,9 +39,23 @@ const checkOpeningStatus = (openingHours) => {
   return 'Closed'
 }
 
+const extractLocations = (places) => {
+  const locations = places.map(place => ({
+    name: place.name,
+    location: {
+      lat: place.location.lat,
+      lng: place.location.lon,
+    },
+    id: place.id,
+  }))
+
+  return locations
+}
+
 module.exports = {
   DEFAULT_PAGE_SIZE: 10,
   DEFAULT_PAGE: 1,
   DEFAULT_LANGUAGE: 'en',
   checkOpeningStatus,
+  extractLocations,
 }

@@ -9,7 +9,7 @@ const Html = ({ children, context, scripts }) => (
       <meta charSet="UTF-8" />
       <title>Helsinki places</title>
     </head>
-    <body>
+    <body style={{ margin: 0 }}>
       <div
         id="root"
         dangerouslySetInnerHTML={{ __html: children }}

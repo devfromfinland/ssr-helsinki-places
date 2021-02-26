@@ -20,6 +20,8 @@
     "setupTestFrameworkScriptFile": "./jest.setup.js"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.11.1",
+    "@googlemaps/markerclustererplus": "^1.0.3",
     "core-js": "^3.9.0",
     "express": "^4.17.1",
     "node-fetch": "^2.6.1",
