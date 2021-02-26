@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import PlacesList from './PlaceList'
 import Pagination from './Pagination'
 import Map from './Map'
@@ -11,7 +12,7 @@ function App({ places, isFailed, ...props }) {
   // TODO: to add react-router if needed
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+    <Container>
       <Left>
         <h1>Places of Helsinki</h1>
 
@@ -24,9 +25,15 @@ function App({ places, isFailed, ...props }) {
       </Left>
 
       { !isFailed ? <Map places={places} highlightMarker={setHighlightLocation}/> : null}
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
 
 const Left = styled.div`
   flex: 1;
@@ -35,5 +42,10 @@ const Left = styled.div`
   display: flex;
   margin-left: 10px;
 `
+
+App.propTypes = {
+  places: PropTypes.array,
+  isFailed: PropTypes.bool,
+}
 
 export default App

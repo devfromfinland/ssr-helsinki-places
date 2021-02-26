@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { DEFAULT_PAGE_SIZE } from '../utils/helpers'
 
 const Pagination = ({ page, size, totalCount }) => {
@@ -48,33 +50,60 @@ const Pagination = ({ page, size, totalCount }) => {
   }
 
   return (
-    <div style={{
-      marginTop: '10px',
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: '10px',
-    }}>
+    <Wrapper data-cy='pagination'>
       <div>
         Page: {page}
-        {' '}<button onClick={handlePrev}>Prev</button>
-        {' '}<button onClick={handleNext}>Next</button>
+        {' '}<button onClick={handlePrev} data-cy='btn-prev'>Prev</button>
+        {' '}<button onClick={handleNext} data-cy='btn-next'>Next</button>
         <div style={{ marginTop: '5px' }}>
-          Go to page: <input type='number' width={30} min={1} max={numPages} value={goTo} onChange={(e) => setGoTo(parseInt(e.target.value))}/>{' '}
-          <button onClick={handleGoToPage}>Go</button>
+          Go to page: <input
+            type='number'
+            width={30}
+            min={1}
+            max={numPages}
+            value={goTo}
+            onChange={(e) => setGoTo(parseInt(e.target.value))}
+            data-cy='input-page'
+          />
+          {' '}<button onClick={handleGoToPage} data-cy='btn-go'>Go</button>
         </div>
-        { errors && errors.goTo ? <div style={{ color: 'red' }}>{errors.goTo}</div> : null }
+        { errors && errors.goTo ? <ErrorMessage data-cy='err-goto'>{errors.goTo}</ErrorMessage> : null }
       </div>
 
       <div>
         <div>
-          Items per page: <input type='number' min={1} max={50} value={itemsPerPage} onChange={(e) => setItemsPerPage(e.target.value)}/>{' '}
-          <button onClick={handleChangePageSize}>Update</button>
+          Items per page: <input
+            type='number'
+            min={1}
+            max={50}
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(e.target.value)}
+            data-cy='input-size'
+          />
+          {' '}<button onClick={handleChangePageSize} data-cy='btn-update'>Update</button>
         </div>
-        { errors && errors.itemsPerPage ? <div style={{ color: 'red' }}>{errors.itemsPerPage}</div> : null }  
+        { errors && errors.itemsPerPage ? <ErrorMessage data-cy='err-page-size'>{errors.itemsPerPage}</ErrorMessage> : null }  
       </div>
-    </div>
+    </Wrapper>
   )
+}
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-top: 10px;
+`
+
+const ErrorMessage = styled.div`
+  color: red;
+`
+
+Pagination.propTypes = {
+  page: PropTypes.number,
+  size: PropTypes.number,
+  totalCount: PropTypes.number,
 }
 
 export default Pagination

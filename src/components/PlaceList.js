@@ -7,7 +7,7 @@ const PlaceList = ({ places, highlight }) => {
   if (!places || places.length === 0) return <div>No data</div>
 
   return (
-    <Wrapper>
+    <Wrapper data-cy='place-list'>
       {/* TODO: Add headers */}
 
       {places.map((item, index) => (

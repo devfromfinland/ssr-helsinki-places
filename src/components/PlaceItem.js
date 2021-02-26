@@ -33,6 +33,7 @@ const PlaceItem = ({ place, index, highlighted }) => {
   return (
     <Wrapper
       data-testid='place-item-element'
+      data-cy='place-item'
       className={index % 2 === 0 ? 'even' : 'odd'}
       style={highlighted ? ({ backgroundColor: '#a9f2fc' }) : {}}
     >
