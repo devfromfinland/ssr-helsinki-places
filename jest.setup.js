@@ -1,16 +1,13 @@
-import server from './src/mocks/server'
 import 'regenerator-runtime/runtime'
 import { closeRedisClient } from './src/lib/redisLib'
 
 // Establish API mocking before all tests.
-beforeAll(() => server.listen())
+beforeAll(() => {})
 
-// Reset any request handlers that we may add during the tests,
-// so they don't affect other tests.
-afterEach(() => server.resetHandlers())
+// Tasks before each tests
+beforeEach(() => {})
 
 // Clean up after the tests are finished.
 afterAll(async () => {
   await closeRedisClient()
-  server.close()
 })

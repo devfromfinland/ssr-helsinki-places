@@ -4,6 +4,7 @@ import { DEFAULT_PAGE_SIZE } from '../utils/helpers'
 const Pagination = ({ page, size, totalCount }) => {
   const [goTo, setGoTo] = useState('')
   const [itemsPerPage, setItemsPerPage] = useState(size)
+  const [errors, setErrors] = useState(null)
   const numPages = Math.ceil(totalCount / size)
 
   const redirect = (newPage) => {
@@ -12,17 +13,15 @@ const Pagination = ({ page, size, totalCount }) => {
     } else if (size === DEFAULT_PAGE_SIZE) {
       window.location.href = `/places/?page=${newPage}`
     } else {
-      window.location.href = `/places/?page=${newPage}?size=${size}`
+      window.location.href = `/places/?page=${newPage}&size=${size}`
     }
   }
 
   const handlePrev = (e) => {
-    // e.preventDefault()
     if (page > 1) redirect(page - 1)
   }
 
   const handleNext = (e) => {
-    // e.preventDefault()
     if (page < numPages) redirect(page + 1)
   }
 
@@ -30,13 +29,11 @@ const Pagination = ({ page, size, totalCount }) => {
     e.preventDefault()
     
     if (goTo === page) {
-      // TODO: show notification
-      console.log('you are on that page already')
+      setErrors({ goTo: `You are currently on page ${goTo}` })
     } else if (goTo > 0 && goTo <= numPages) {
       redirect(goTo)
     } else {
-      // TODO: show notification
-      console.log(`page should be > 0 and < ${numPages}`)
+      setErrors({ goTo: `Page should be > 0 and < ${numPages}` })
     }
   }
 
@@ -46,36 +43,34 @@ const Pagination = ({ page, size, totalCount }) => {
     if (itemsPerPage >= 1 && itemsPerPage <= 50) {
       window.location.href = `/places/?size=${itemsPerPage}`
     } else {
-      // TODO: show notification
-      console.log('items per page should be > 0 and < 50')
+      setErrors({ itemsPerPage: 'Items per page should be > 0 and < 50' })
     }
   }
 
   return (
-    <div style={{ marginBottom: '10px' }}>
-      <div>Total items: {totalCount}</div>
+    <div style={{
+      marginTop: '10px',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    }}>
       <div>
-        <span>Current page: {page}</span>
-
-        {page > 1 ? (
-          <>
-            {' '}<button onClick={handlePrev}>Prev</button>
-          </>
-        ) : null}
-
-        {page < numPages ? (
-          <>
-            {' '}<button onClick={handleNext}>Next</button>
-          </>
-        ) : null}
+        Page: {page}
+        {' '}<button onClick={handlePrev}>Prev</button>
+        {' '}<button onClick={handleNext}>Next</button>
+        <div>
+          Go to page: <input type='number' width={30} min={1} max={numPages} value={goTo} onChange={(e) => setGoTo(parseInt(e.target.value))}/>{' '}
+          <button onClick={handleGoToPage}>Go</button>
+        </div>
+        { errors && errors.goTo ? <div style={{ color: 'red' }}>{errors.goTo}</div> : null }
       </div>
+
       <div>
-        Items per page: <input type='number' min={1} max={50} value={itemsPerPage} onChange={(e) => setItemsPerPage(e.target.value)}/>{' '}
-        <button onClick={handleChangePageSize}>Set</button>
-      </div>
-      <div>
-        Go to page: <input type='number' min={1} max={numPages} value={goTo} onChange={(e) => setGoTo(parseInt(e.target.value))}/>{' '}
-        <button onClick={handleGoToPage}>Go</button>
+        <div>
+          Items per page: <input type='number' min={1} max={50} value={itemsPerPage} onChange={(e) => setItemsPerPage(e.target.value)}/>{' '}
+          <button onClick={handleChangePageSize}>Update</button>
+        </div>
+        { errors && errors.itemsPerPage ? <div style={{ color: 'red' }}>{errors.itemsPerPage}</div> : null }  
       </div>
     </div>
   )

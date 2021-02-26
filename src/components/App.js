@@ -9,8 +9,9 @@ function App({ places, ...props }) {
 
   return (
     <div>
-      <Pagination {...props} />
+      <h1>Places of Helsinki</h1>
       <PlacesList places={places} />
+      <Pagination {...props} />
     </div>
   )
 }

@@ -23,7 +23,7 @@ const Html = ({ children, context, scripts }) => (
         />
       )}
 
-      {scripts.map((item, index) => <script key={index} src={item} />)}
+      {scripts && scripts.map((item, index) => <script key={index} src={item} />)}
     </body>
   </html>
 )

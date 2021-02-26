@@ -1,4 +1,5 @@
 import express from 'express'
+
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -6,7 +7,9 @@ router.get('/', (req, res) => {
 
   res.send(`
     <!doctype html>
-    <div id="root">Hello world</div>
+    <div id="root">
+      Hello world! <a href='/places'>Start</a>
+    </div>
   `)
 })
 

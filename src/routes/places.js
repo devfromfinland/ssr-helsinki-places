@@ -38,6 +38,9 @@ router.get('/', async (req, res) => {
       } else {
         const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
         const result = await response.json()
+
+        // console.log('result', result)
+
         places = result.data
 
         // check totalCount and update if different from cache
