@@ -65,10 +65,8 @@ function Map({ places, highlightMarker }) {
   return (
     <div id='map' style={{
       flex: 1,
-      height: '500px',
-      marginTop: '80px',
-      marginLeft: '10px',
-      marginRight: '10px',
+      height: '100vh',
+      marginLeft: '20px',
     }}>
       { isError ? 'Could not load google map!' : null}
     </div>

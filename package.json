@@ -9,7 +9,7 @@
     "build:dev": "webpack --config webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "dev": "npm run build:dev && cross-env NODE_ENV=development nodemon index.js",
-    "start": "npm run build:prod && node build/server.js"
+    "start": "npm run build:prod && cross-env NODE_ENV=production node build/server.js"
   },
   "author": "Viet Phan",
   "license": "ISC",
