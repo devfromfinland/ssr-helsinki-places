@@ -7,10 +7,14 @@
     "test:unit": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --coverage",
     "test:e2e": "cypress run",
     "build:dev": "webpack --config webpack.config.js",
-    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "dev": "npm run build:dev && cross-env NODE_ENV=development nodemon index.js",
-    "start": "npm run build:prod && cross-env NODE_ENV=production node build/server.js",
-    "test": "server-test start 3001 test:e2e"
+    "start": "npm run build && cross-env NODE_ENV=production node build/server.js",
+    "test": "server-test start 3001 test:e2e",
+    "reinstall:cypress": "cypress install",
+    "ci:start": "NODE_ENV=production node build/server.js",
+    "ci:unit": "NODE_ENV=test CI=true jest --runInBand --detectOpenHandles --coverage",
+    "ci:e2e": "server-test ci:start 3001 test:e2e"
   },
   "author": "Viet Phan",
   "license": "ISC",

@@ -2,7 +2,9 @@ import redis from 'redis'
 
 const REDIS_PORT = 6379
 
-export const redisClient = redis.createClient(REDIS_PORT)
+export const redisClient = process.env.CI
+  ? redis.createClient(REDIS_PORT, { host: 'redis' })
+  : redis.createClient(REDIS_PORT)
 
 // close redisClient properly after all tests
 // ref: https://stackoverflow.com/a/54560610
