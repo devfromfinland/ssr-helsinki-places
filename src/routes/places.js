@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 
     redisClient.get('count', (err, count) => {
       if (err) throw err
-      if (count) totalCount = count
+      if (count) totalCount = parseInt(count, 10)
     })
 
     redisClient.get(redisKey, async (err, data) => {
@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
   
           // check totalCount and update if different from cache
           if (!totalCount || totalCount !== parseInt(result.meta.count)) {
-            totalCount = parseInt(result.meta.count)
+            totalCount = parseInt(result.meta.count, 10)
             redisClient.set('count', totalCount)
           }
   
