@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import PlaceItem from './PlaceItem'
@@ -8,8 +8,6 @@ const PlaceList = ({ places, highlight }) => {
 
   return (
     <Wrapper data-cy='place-list'>
-      {/* TODO: Add headers */}
-
       {places.map((item, index) => (
         <PlaceItem
           place={item}
@@ -45,6 +43,7 @@ const Wrapper = styled.div`
 
 PlaceList.propTypes = {
   places: PropTypes.array,
+  highlight: PropTypes.string,
 }
 
 export default PlaceList

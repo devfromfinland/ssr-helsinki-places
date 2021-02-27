@@ -1264,7 +1264,7 @@ export const places1 = [
           'open24h': false
         }
       ],
-      'openinghours_exception': ''
+      'openinghours_exception': 'as'
     }
   }
 ]

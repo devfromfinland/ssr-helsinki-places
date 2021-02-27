@@ -5,17 +5,19 @@ import { DEFAULT_PAGE_SIZE } from '../utils/helpers'
 
 const Pagination = ({ page, size, totalCount }) => {
   const [goTo, setGoTo] = useState('')
-  const [itemsPerPage, setItemsPerPage] = useState(size)
+  const [itemsPerPage, setItemsPerPage] = useState(size || DEFAULT_PAGE_SIZE)
   const [errors, setErrors] = useState(null)
-  const numPages = Math.ceil(totalCount / size)
+  const numPages = size
+    ? Math.ceil(totalCount / size)
+    : Math.ceil(totalCount / DEFAULT_PAGE_SIZE)
 
   const redirect = (newPage) => {
-    if (size === DEFAULT_PAGE_SIZE && newPage === 1) {
+    if (itemsPerPage === DEFAULT_PAGE_SIZE && newPage === 1) {
       window.location.href = `/places`
-    } else if (size === DEFAULT_PAGE_SIZE) {
+    } else if (itemsPerPage === DEFAULT_PAGE_SIZE) {
       window.location.href = `/places/?page=${newPage}`
     } else {
-      window.location.href = `/places/?page=${newPage}&size=${size}`
+      window.location.href = `/places/?page=${newPage}&size=${itemsPerPage}`
     }
   }
 
@@ -60,7 +62,6 @@ const Pagination = ({ page, size, totalCount }) => {
             type='number'
             width={30}
             min={1}
-            max={numPages}
             value={goTo}
             onChange={(e) => setGoTo(parseInt(e.target.value))}
             data-cy='input-page'
@@ -101,9 +102,9 @@ const ErrorMessage = styled.div`
 `
 
 Pagination.propTypes = {
-  page: PropTypes.number,
+  page: PropTypes.number.isRequired,
+  totalCount: PropTypes.number.isRequired,
   size: PropTypes.number,
-  totalCount: PropTypes.number,
 }
 
 export default Pagination

@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:unit": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles --watchAll",
-    "test:open": "cypress open",
+    "test:unit": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --coverage",
     "test:e2e": "cypress run",
     "build:dev": "webpack --config webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",

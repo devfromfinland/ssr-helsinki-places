@@ -26,10 +26,25 @@ describe('Viewing places listing', () => {
   })
 
   // TODO: to use fetch mock
-  it('Default: page has 10 items and item count is 12.', async () => {
+  it('Response have all the elements', async () => {
     const res = await endpoint.get('/places')
-    // console.log('res in test', res.text)
-
     expect(res.status).toEqual(200)
+
+    // checking tags
+    expect(res.text).toMatch(/<html[^>]*>(.*?)<\/html>/)
+    expect(res.text).toMatch(/<head[^>]*>(.*?)<\/head>/)
+    expect(res.text).toMatch(/<body[^>]*>(.*?)<\/body>/)
+
+    // checking contents
+    expect(res.text).toContain('Places of Helsinki')
+    expect(res.text).toMatch(/<div[^>]*data-cy="place-list"/g)
+    expect(res.text).toMatch(/<div[^>]*data-cy="pagination"/g)
+    expect(res.text).toMatch(/<div[^>]*id="map"/g)
+    const items = res.text.match(/<div[^>]*data-testid="place-item-element"/g)
+    expect(items).toHaveLength(10)
+    expect(res.text).toContain('window.APP_CONTEXT=')
+
+    // checking scripts
+    expect(res.text).toMatch(/<script src="client.js"><\/script>/)
   })
 })
