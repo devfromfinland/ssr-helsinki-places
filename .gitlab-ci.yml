@@ -6,8 +6,6 @@ services:
 cache:
   paths:
     - node_modules/
-    - root/.cache/Cypress
-    - .cache/Cypress
 
 stages:
   - build
@@ -18,10 +16,6 @@ build:
   stage: build
   script:
     - npm install
-    # check Cypress binary path and cached versions
-    # useful to make sure we are not carrying around old versions
-    - npx cypress cache path
-    - npx cypress cache list
     - npm run build
   artifacts:
     paths:
