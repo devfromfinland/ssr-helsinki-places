@@ -5,7 +5,7 @@ import fetch from 'node-fetch'
 import { DEFAULT_PAGE_SIZE, DEFAULT_LANGUAGE } from '../utils/helpers'
 import App from '../components/App'
 import Html from '../components/Html'
-import { redisClient } from '../lib/redisLib'
+import { redisClient, hasRedisServer } from '../lib/redisLib'
 
 const router = express.Router()
 
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
   const scripts = ['client.js']
 
   // check from cache first
-  try {
+  if (hasRedisServer()) {
     let totalCount = null
 
     redisClient.get('count', (err, count) => {
@@ -76,8 +76,40 @@ router.get('/', async (req, res) => {
 
       res.send(`<!DOCTYPE html>${html}`)
     })
-  } catch (err) {
-    console.log(`error with redis ${err}`)
+  } else {
+    // no redis server for caching
+    let isFailed = false
+    let places
+    let totalCount
+
+    try {
+      const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
+      const result = await response.json()
+      places = result.data
+      totalCount = parseInt(result.meta.count)
+    } catch (err) {
+      isFailed = true
+      console.log('API request failed')
+    }
+    
+    const context = {
+      places,
+      page,
+      size,
+      totalCount,
+      isFailed,
+    }
+
+    const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
+    const html = ReactDOMServer.renderToStaticMarkup(
+      <Html
+        children={mainContent}
+        scripts={scripts}
+        context={context}
+      />
+    )
+
+    res.send(`<!DOCTYPE html>${html}`)
   }
 })
 
