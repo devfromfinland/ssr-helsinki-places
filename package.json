@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build:local": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "dev:local": "cross-env NODE_ENV=development nodemon index.js",
+    "dev:local": "cross-env NODE_ENV=development webpack --config webpack.config.js && cross-env NODE_ENV=development nodemon index.js",
     "start:local": "cross-env NODE_ENV=production node build/server.js",
     "test:local": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --coverage && server-test start 3001 test:e2e",
     "test:unit": "NODE_ENV=test jest --runInBand --detectOpenHandles --coverage",

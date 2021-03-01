@@ -1,4 +1,4 @@
-name: (v2) Test, build, and deploy to Heroku
+name: Test, build, and deploy to Heroku
 
 on:
   push:
@@ -30,10 +30,3 @@ jobs:
         env:
           NODE_ENV: test
           REDIS_URL: ${{secrets.REDIS_URL}}
-
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "accenture-test"
-          heroku_email: "contact@vietphan.info"

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'
 import fetch from 'node-fetch'
-import { DEFAULT_PAGE_SIZE, DEFAULT_LANGUAGE } from '../utils/helpers'
+import { DEFAULT_PAGE_SIZE, DEFAULT_LANGUAGE, API_BASE_URL, APP_VERSION } from '../utils/config'
 import App from '../components/App'
 import Html from '../components/Html'
 import { redisClient } from '../lib/redisLib'
@@ -24,13 +24,17 @@ const prepAndSendContent = (context, res) => {
   res.send(`<!DOCTYPE html>${html}`)
 }
 
-router.get('/', async (req, res) => {
-  // TODO: additional check validity of page & size input
+const fetchData = async (page, size, lang) => {
+  const response = await fetch(`${API_BASE_URL}/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
+  const result = await response.json()
+  return result
+}
 
+router.get('/', async (req, res) => {
   const page = req.query.page ? parseInt(req.query.page, 10) : 1
   const size = req.query.size ? parseInt(req.query.size, 10) : DEFAULT_PAGE_SIZE
   const lang = req.query.lang ? req.query.lang : DEFAULT_LANGUAGE
-  const redisKey = req.originalUrl
+  const redisKey = APP_VERSION + req.originalUrl
 
   let places
   let isFailed = false
@@ -38,31 +42,22 @@ router.get('/', async (req, res) => {
 
   if (redisClient.connected) {
     // check data from cache first
-    redisClient.get('count', (err, count) => {
-      if (err) throw err
-      if (count) totalCount = parseInt(count, 10)
-    })
-
     redisClient.get(redisKey, async (err, data) => {
       if (err) throw err
 
       if (data) {
-        // cache expire after 1 day, so no need validate strategy
-        places = JSON.parse(data)
+        // cache expire after 1 day, so no need cache validate strategy
+        const parsedData = JSON.parse(data)
+        places = parsedData.places
+        totalCount = parsedData.totalCount
       } else {
         try {
-          const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
-          const result = await response.json()
+          const result = await fetchData(page, size, lang)
           places = result.data
-  
-          // check totalCount and update if different from cache
-          if (!totalCount || totalCount !== parseInt(result.meta.count)) {
-            totalCount = parseInt(result.meta.count, 10)
-            redisClient.set('count', totalCount)
-          }
-  
+          totalCount = parseInt(result.meta.count, 10)
+    
           // save to cache with expiration = 1 day
-          redisClient.setex(redisKey, 24 * 60 * 60, JSON.stringify(result.data))
+          redisClient.setex(redisKey, 24 * 60 * 60, JSON.stringify({ places, totalCount }))
         } catch (err) {
           isFailed = true
           console.log('API request failed')
@@ -80,8 +75,7 @@ router.get('/', async (req, res) => {
   } else {
     // no connection to redis server, query as normal
     try {
-      const response = await fetch(`http://open-api.myhelsinki.fi/v1/places/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
-      const result = await response.json()
+      const result = await fetchData(page, size, lang)
       places = result.data
       totalCount = parseInt(result.meta.count, 10)
     } catch (err) {
@@ -97,8 +91,6 @@ router.get('/', async (req, res) => {
       isFailed,
     }, res)
   }
-
-  
 })
 
 export default router
