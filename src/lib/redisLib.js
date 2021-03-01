@@ -2,12 +2,12 @@ import redis from 'redis'
 
 const REDIS_PORT = 6379
 
-export const redisClient = process.env.CI
-  ? redis.createClient(REDIS_PORT, { host: 'redis' })
-  : redis.createClient(REDIS_PORT)
+export const redisClient = process.env.REDIS_URL
+  ? redis.createClient(process.env.REDIS_URL)
+  : redis.createClient(REDIS_PORT) // localhost:6379
 
 redisClient.on('error', (err) => {
-  console.log('redis client error', err)
+  console.log('redis client error, redis cache is not available')
 })
 
 // close redisClient properly after all tests

@@ -5,7 +5,7 @@ import placesRouter from './routes/places'
 
 const app = express()
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 
 // fix static path for dynamic route
 // https://stackoverflow.com/a/57915021

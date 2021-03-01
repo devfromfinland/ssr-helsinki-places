@@ -1,20 +1,22 @@
 {
   "name": "accenture-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Helsinki places",
+  "engines": {
+    "node": "14.x"
+  },
   "main": "index.js",
   "scripts": {
-    "test:unit": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --coverage",
+    "build:local": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "dev:local": "cross-env NODE_ENV=development nodemon index.js",
+    "start:local": "cross-env NODE_ENV=production node build/server.js",
+    "test:local": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --coverage && server-test start 3001 test:e2e",
+    "test:unit": "NODE_ENV=test jest --runInBand --detectOpenHandles --coverage",
     "test:e2e": "cypress run",
-    "build:dev": "webpack --config webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "dev": "npm run build:dev && cross-env NODE_ENV=development nodemon index.js",
-    "start": "npm run build && cross-env NODE_ENV=production node build/server.js",
-    "test": "server-test start 3001 test:e2e",
-    "reinstall:cypress": "cypress install",
-    "ci:start": "NODE_ENV=production node build/server.js",
-    "ci:unit": "NODE_ENV=test CI=true jest --runInBand --detectOpenHandles --coverage",
-    "ci:e2e": "server-test ci:start 3001 test:e2e"
+    "build": "NODE_ENV=production webpack --config webpack.config.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "start": "node build/server.js",
+    "test": "npm run test:unit && server-test start 3001 test:e2e"
   },
   "author": "Viet Phan",
   "license": "ISC",
@@ -26,6 +28,7 @@
     "setupTestFrameworkScriptFile": "./jest.setup.js"
   },
   "dependencies": {
+    "@babel/register": "^7.13.8",
     "@googlemaps/js-api-loader": "^1.11.1",
     "@googlemaps/markerclustererplus": "^1.0.3",
     "core-js": "^3.9.0",
@@ -43,7 +46,6 @@
     "@babel/core": "^7.12.17",
     "@babel/preset-env": "^7.12.17",
     "@babel/preset-react": "^7.12.13",
-    "@babel/register": "^7.12.13",
     "@testing-library/react": "^11.2.5",
     "babel-loader": "^8.2.2",
     "babel-plugin-styled-components": "^1.12.0",
