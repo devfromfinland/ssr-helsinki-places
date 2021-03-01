@@ -2,6 +2,7 @@ import express from 'express'
 import path from 'path'
 import indexRouter from './routes/index'
 import placesRouter from './routes/places'
+import unknownRouter from './routes/unknown'
 
 const app = express()
 
@@ -28,6 +29,7 @@ app.use('*', (req, res, next) => {
 
 app.use('/', indexRouter)
 app.use('/places', placesRouter)
+app.use('*', unknownRouter)
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
