@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set Node.js 12.x
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "14"
@@ -23,16 +23,13 @@ jobs:
       - name: Build
         run: |
           npm run build
+        env:
+          NODE_ENV: production
+          REDIS_URL: ${{secrets.REDIS_URL}}
 
       - name: Run all tests
         run: |
           npm test
-
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "accenture-test"
-          heroku_email: "contact@vietphan.info"
         env:
-          NODE_ENV: production
+          NODE_ENV: test
+          REDIS_URL: ${{secrets.REDIS_URL}}

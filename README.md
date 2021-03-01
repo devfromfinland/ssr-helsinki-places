@@ -22,8 +22,8 @@ This is a web app to show places in Helsinki. Data requested from [MyHelsinki Op
 - [x] Server side caching with Redis
 - [x] Unit test with Jest
 - [x] End-to-end test with Cypress
-- [x] CI using GitLab
-- [ ] CD using GitLab, deploy to AWS EKS
+- [x] CI with GitHub Actions
+- [x] CD with Heroku using GitHub Integration (deploy to production only after all tests passed on GitHub Actions)
 - [ ] Use mock API instead of real API in test
 
 ## To run in local
@@ -47,15 +47,9 @@ npm run start
 Build and start the server on http://localhost:3001 (assuming you have redis server running at http://localhost:6379). For Windows user, [memurai](https://www.memurai.com/) can be used as a replacement for [redis server](https://redis.io/topics/quickstart).
 
 ```
-npm run test:unit
-```
-
-Run unit tests
-
-```
 npm run test
 ```
 
-Run end-to-end test using cypress
+Run unit tests with jest and end-to-end test using cypress
 
 ###

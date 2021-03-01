@@ -14,7 +14,7 @@ function App({ places, isFailed, ...props }) {
   return (
     <Container>
       <Left>
-        <h1>Places of Helsinki</h1>
+        <h1>Places of Helsinki (hosted on Heroku)</h1>
 
         { isFailed ? <div>Could not load data, please refresh the page or try again later.</div> : <>
           <PlacesList places={places} highlight={highlightLocation}/>
