@@ -12,11 +12,6 @@ const PlaceItem = ({ place, index, highlighted }) => {
   // TODO: show link and Modal for exception opening hours
   const status = checkOpeningStatus(place.opening_hours)
 
-  if (place.name[lang] === 'Aleksanterinkatu Street') {
-    console.log('opening_hours', place.opening_hours)
-    console.log('status', status)
-  }
-
   const renderStatus = () => {
     switch (status) {
       case 'Open':
