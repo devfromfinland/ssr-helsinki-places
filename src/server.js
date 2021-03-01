@@ -29,7 +29,9 @@ app.use('*', (req, res, next) => {
 
 app.use('/', indexRouter)
 app.use('/places', placesRouter)
-app.use('*', unknownRouter)
+app.use('/404', unknownRouter)
+
+app.use('*', (req, res) => res.redirect('/404'))
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {

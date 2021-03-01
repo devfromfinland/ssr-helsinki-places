@@ -12,19 +12,26 @@ const PlaceItem = ({ place, index, highlighted }) => {
   // TODO: show link and Modal for exception opening hours
   const status = checkOpeningStatus(place.opening_hours)
 
+  if (place.name[lang] === 'Aleksanterinkatu Street') {
+    console.log('opening_hours', place.opening_hours)
+    console.log('status', status)
+  }
+
   const renderStatus = () => {
     switch (status) {
       case 'Open':
         return <Status open>Open</Status>
       case 'Closed':
-        return <Status>Closed</Status>
+        return <Status closed>Closed</Status>
       case 'Open with exception':
         return <div>
-          <Status open exception>Open</Status>
+          <Status open>Open</Status>
           <div>with exception</div>
         </div>
+      case 'No data':
+        return <Status>No data</Status>
       default:
-        return ''
+        return <Status>Error</Status>
     }
   }
 
@@ -67,7 +74,11 @@ const Address = styled.div`
 `
 
 const Status = styled.div`
-  color: ${props => props.open ? 'green' : 'red'};
+  color: ${props => {
+    if (props.open) return 'green'
+    if (props.closed) return 'red'
+    return 'black' // normal
+  }};
   text-transform: uppercase;
   font-weight: bold;
   text-align: end;
