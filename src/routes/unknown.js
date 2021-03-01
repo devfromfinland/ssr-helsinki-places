@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   res.send(`
     <!DOCTYPE html>
     <div id="root">
-      Wrong path... Maybe you wanna try something else?
+      Wrong path...! Maybe you wanna try something else?
     </div>
   `)
 
