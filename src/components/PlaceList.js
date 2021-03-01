@@ -22,7 +22,7 @@ const PlaceList = ({ places, highlight }) => {
 
 const Wrapper = styled.div`
   border: 1px solid grey;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   & .even {
     background-color: #f1f1f1;
