@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'
-import fetch from 'node-fetch'
-import { DEFAULT_PAGE_SIZE, DEFAULT_LANGUAGE, API_BASE_URL, APP_VERSION } from '../utils/config'
+import { DEFAULT_PAGE_SIZE, DEFAULT_LANGUAGE, APP_VERSION } from '../utils/config'
 import App from '../components/App'
 import Html from '../components/Html'
 import { redisClient } from '../lib/redisLib'
+import { fetchPlaces } from '../lib/apiLib'
 
 const router = express.Router()
 
@@ -22,12 +22,6 @@ const prepAndSendContent = (context, res) => {
   )
 
   res.send(`<!DOCTYPE html>${html}`)
-}
-
-const fetchData = async (page, size, lang) => {
-  const response = await fetch(`${API_BASE_URL}/?limit=${size}&start=${(page-1)*size}&language_filter=${lang}`)
-  const result = await response.json()
-  return result
 }
 
 router.get('/', async (req, res) => {
@@ -52,7 +46,7 @@ router.get('/', async (req, res) => {
         totalCount = parsedData.totalCount
       } else {
         try {
-          const result = await fetchData(page, size, lang)
+          const result = await fetchPlaces(page, size, lang)
           places = result.data
           totalCount = parseInt(result.meta.count, 10)
     
@@ -75,7 +69,7 @@ router.get('/', async (req, res) => {
   } else {
     // no connection to redis server, query as normal
     try {
-      const result = await fetchData(page, size, lang)
+      const result = await fetchPlaces(page, size, lang)
       places = result.data
       totalCount = parseInt(result.meta.count, 10)
     } catch (err) {
