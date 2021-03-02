@@ -16,15 +16,17 @@ function App({ places, isFailed, ...props }) {
       <Left>
         <h1>Places of Helsinki (available on Heroku)</h1>
 
-        { isFailed ? <div>Could not load data, please refresh the page or try again later.</div> : <>
-          <PlacesList places={places} highlight={highlightLocation}/>
-        </>}
+        { isFailed ? <div>Could not load data, please refresh the page or try again later.</div> : (
+          <>
+            <PlacesList places={places} highlight={highlightLocation} />
+          </>
+        )}
 
         <Pagination {...props} />
-        
+
       </Left>
 
-      { !isFailed ? <Map places={places} highlightMarker={setHighlightLocation}/> : null}
+      { !isFailed ? <Map places={places} highlightMarker={setHighlightLocation} /> : null}
     </Container>
   )
 }

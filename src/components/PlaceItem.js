@@ -17,12 +17,14 @@ const PlaceItem = ({ place, index, highlighted }) => {
       case 'Open':
         return <Status style={{ color: 'green' }}>Open</Status>
       case 'Closed':
-        return <Status style={{ color: red }}>Closed</Status>
+        return <Status style={{ color: 'red' }}>Closed</Status>
       case 'Open with exception':
-        return <div>
-          <Status style={{ color: 'green' }}>Open</Status>
-          <div>with exception</div>
-        </div>
+        return (
+          <div>
+            <Status style={{ color: 'green' }}>Open</Status>
+            <div>with exception</div>
+          </div>
+        )
       case 'No data':
         return <Status>No data</Status>
       case 'Invalid data':
@@ -32,18 +34,26 @@ const PlaceItem = ({ place, index, highlighted }) => {
     }
   }
 
-  const { street_address, postal_code, locality } = place.location?.address
+  let streetAddress = ''
+  let postalCode = ''
+  let locality = ''
+
+  if (place.location?.address) {
+    streetAddress = place.location.address.street_address
+    postalCode = place.location.address.postal_code
+    locality = place.location.address.locality
+  }
 
   return (
     <Wrapper
-      data-testid='place-item-element'
-      data-cy='place-item'
+      data-testid="place-item-element"
+      data-cy="place-item"
       className={index % 2 === 0 ? 'even' : 'odd'}
       style={highlighted ? ({ backgroundColor: '#a9f2fc' }) : {}}
     >
       <Left>
         <Name>{place.name[lang]}</Name>
-        <Address>{`${street_address}, ${postal_code} ${locality}`}</Address>
+        <Address>{`${streetAddress}, ${postalCode} ${locality}`}</Address>
       </Left>
       {renderStatus()}
     </Wrapper>
@@ -79,7 +89,7 @@ const Status = styled.div`
 
 PlaceItem.propTypes = {
   place: PropTypes.object,
-  index: PropTypes.number
+  index: PropTypes.number,
 }
 
 export default PlaceItem

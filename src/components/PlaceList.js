@@ -7,13 +7,13 @@ const PlaceList = ({ places, highlight }) => {
   if (!places || places.length === 0) return <div>No data</div>
 
   return (
-    <Wrapper data-cy='place-list'>
+    <Wrapper data-cy="place-list">
       {places.map((item, index) => (
         <PlaceItem
           place={item}
           key={item.id}
           index={index}
-          highlighted={item.id === highlight ? true : false }
+          highlighted={item.id === highlight}
         />
       ))}
     </Wrapper>

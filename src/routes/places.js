@@ -12,13 +12,9 @@ const router = express.Router()
 const prepAndSendContent = (context, res) => {
   const scripts = ['client.js']
 
-  const mainContent = ReactDOMServer.renderToString(<App {...context}/>)
+  const mainContent = ReactDOMServer.renderToString(<App {...context} />)
   const html = ReactDOMServer.renderToStaticMarkup(
-    <Html
-      children={mainContent}
-      scripts={scripts}
-      context={context}
-    />
+    <Html scripts={scripts} context={context}>{mainContent}</Html>,
   )
 
   res.send(`<!DOCTYPE html>${html}`)
@@ -49,12 +45,12 @@ router.get('/', async (req, res) => {
           const result = await fetchPlaces(page, size, lang)
           places = result.data
           totalCount = parseInt(result.meta.count, 10)
-    
+
           // save to cache with expiration = 1 day
           redisClient.setex(redisKey, 24 * 60 * 60, JSON.stringify({ places, totalCount }))
-        } catch (err) {
+        } catch (error) {
           isFailed = true
-          console.log('API request failed')
+          console.log('API request failed', error)
         }
       }
 
