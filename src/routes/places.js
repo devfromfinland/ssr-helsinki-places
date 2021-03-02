@@ -70,7 +70,7 @@ router.get('/', async (req, res) => {
       totalCount = parseInt(result.meta.count, 10)
     } catch (err) {
       isFailed = true
-      console.log('API request failed')
+      console.log('API request failed', err)
     }
 
     prepAndSendContent({

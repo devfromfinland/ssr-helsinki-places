@@ -24,7 +24,7 @@ This is a web app to show places in Helsinki. Data requested from [MyHelsinki Op
 - [x] End-to-end test with Cypress
 - [x] CI with GitHub Actions
 - [x] CD with Heroku using GitHub Integration (deploy to production only after all tests passed on GitHub Actions)
-- [ ] Use mock API instead of real API in test
+- [x] Use mock API instead of real API in test
 
 ## To run in local
 

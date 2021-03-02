@@ -10,10 +10,10 @@ it('Show 1 item with name, address, and status', () => {
 
   expect(content).toMatch(/<div[^>]*data-cy="place-list"/g)
 
-  expect(content).toContain('A. Tillander')
-  expect(content).toContain('Aleksanterinkatu 17')
-  expect(content).toContain('00100')
-  expect(content).toContain('Helsinki')
+  expect(content).toContain('Aalto University School of Business')
+  expect(content).toContain('Ekonominaukio 1')
+  expect(content).toContain('02150')
+  expect(content).toContain('Espoo')
 
   // render correct status
   const status = checkOpeningStatus(places1[0].opening_hours)
