@@ -83,7 +83,7 @@ describe('Viewing places listing', () => {
     expect(res.text).toContain('window.APP_CONTEXT=')
     expect(res.text).toContain('Aalto University School of Business')
 
-    // // checking scripts
+    // checking scripts
     expect(res.text).toMatch(/<script src="client.js"><\/script>/)
   })
 
@@ -103,5 +103,24 @@ describe('Viewing places listing', () => {
     expect(res.text).not.toMatch(/<div[^>]*data-cy="place-list"/g)
     expect(res.text).not.toMatch(/<div[^>]*data-testid="place-item-element"/g)
     expect(res.text).not.toMatch(/<div[^>]*id="map"/g)
+  })
+
+  it('404 page', async () => {
+    const res = await endpoint.get('/not-exist-path')
+
+    // redirect to 404 page
+    expect(res.status).toEqual(302)
+    expect(res.text).toContain('Redirecting to /404')
+
+    // contents on 404 page
+    const secondRes = await endpoint.get('/404')
+    expect(secondRes.text).toContain('Page not found! Feel free to go back or try something else?')
+
+    // no other contents should show
+    expect(secondRes.text).not.toMatch(/<div[^>]*data-cy="place-list"/g)
+    expect(secondRes.text).not.toMatch(/<div[^>]*id="map"/g)
+
+    // no script attached since it is a very simple HTML page
+    expect(secondRes.text).not.toMatch(/<script src="client.js"><\/script>/)
   })
 })

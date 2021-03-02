@@ -2,7 +2,9 @@ import 'regenerator-runtime/runtime'
 import { closeRedisClient } from './src/lib/redisLib'
 
 // Establish API mocking before all tests.
-beforeAll(() => {})
+beforeAll(() => {
+  jest.createMockFromModule('node-fetch') // fix CI mock module?
+})
 
 // Tasks before each tests
 beforeEach(() => {})
