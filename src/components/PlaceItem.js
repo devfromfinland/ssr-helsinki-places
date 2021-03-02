@@ -25,6 +25,8 @@ const PlaceItem = ({ place, index, highlighted }) => {
         </div>
       case 'No data':
         return <Status>No data</Status>
+      case 'Invalid data':
+        return <Status>Invalid</Status>
       default:
         return <Status>Error</Status>
     }
@@ -69,9 +71,9 @@ const Address = styled.div`
 `
 
 const Status = styled.div`
-  color: ${props => {
-    if (props.open) return 'green'
-    if (props.closed) return 'red'
+  color: ${(props) => {
+    if (props.open) { return 'green' }
+    if (props.closed) { return 'red' }
     return 'black' // normal
   }};
   text-transform: uppercase;
