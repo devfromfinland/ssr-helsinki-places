@@ -88,9 +88,7 @@ describe('Viewing places listing', () => {
   })
 
   it('API query error', async () => {
-    fetch.mockImplementationOnce(() => {
-      return new Promise((resolve, reject) => reject(new Error('network error')))
-    })
+    fetch.mockRejectedValueOnce(new Error('an error happened'))
 
     const res = await endpoint.get('/places')
     expect(res.status).toEqual(200)
