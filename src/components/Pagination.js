@@ -13,7 +13,7 @@ const Pagination = ({ page, size, totalCount }) => {
 
   const redirect = (newPage) => {
     if (itemsPerPage === DEFAULT_PAGE_SIZE && newPage === 1) {
-      window.location.href = `/places`
+      window.location.href = '/places'
     } else if (itemsPerPage === DEFAULT_PAGE_SIZE) {
       window.location.href = `/places/?page=${newPage}`
     } else {
@@ -21,17 +21,17 @@ const Pagination = ({ page, size, totalCount }) => {
     }
   }
 
-  const handlePrev = (e) => {
+  const handlePrev = () => {
     if (page > 1) redirect(page - 1)
   }
 
-  const handleNext = (e) => {
+  const handleNext = () => {
     if (page < numPages) redirect(page + 1)
   }
 
   const handleGoToPage = (e) => {
     e.preventDefault()
-    
+
     if (goTo === page) {
       setErrors({ goTo: `You are currently on page ${goTo}` })
     } else if (goTo > 0 && goTo <= numPages) {
@@ -52,38 +52,48 @@ const Pagination = ({ page, size, totalCount }) => {
   }
 
   return (
-    <Wrapper data-cy='pagination'>
+    <Wrapper data-cy="pagination">
       <div>
-        Page: {page}
-        {' '}<button onClick={handlePrev} data-cy='btn-prev'>Prev</button>
-        {' '}<button onClick={handleNext} data-cy='btn-next'>Next</button>
+        Page:
+        {' '}
+        {page}
+        {' '}
+        <button type="button" onClick={handlePrev} data-cy="btn-prev">Prev</button>
+        {' '}
+        <button type="button" onClick={handleNext} data-cy="btn-next">Next</button>
         <div style={{ marginTop: '5px' }}>
-          Go to page: <input
-            type='number'
+          Go to page:
+          {' '}
+          <input
+            type="number"
             width={30}
             min={1}
             value={goTo}
-            onChange={(e) => setGoTo(parseInt(e.target.value))}
-            data-cy='input-page'
+            onChange={(e) => setGoTo(parseInt(e.target.value, 10))}
+            data-cy="input-page"
           />
-          {' '}<button onClick={handleGoToPage} data-cy='btn-go'>Go</button>
+          {' '}
+          <button type="button" onClick={handleGoToPage} data-cy="btn-go">Go</button>
         </div>
-        { errors && errors.goTo ? <ErrorMessage data-cy='err-goto'>{errors.goTo}</ErrorMessage> : null }
+        { errors && errors.goTo ? <ErrorMessage data-cy="err-goto">{errors.goTo}</ErrorMessage> : null }
       </div>
 
       <div>
         <div>
-          Items per page: <input
-            type='number'
+          Items per page:
+          {' '}
+          <input
+            type="number"
             min={1}
             max={50}
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(e.target.value)}
-            data-cy='input-size'
+            data-cy="input-size"
           />
-          {' '}<button onClick={handleChangePageSize} data-cy='btn-update'>Update</button>
+          {' '}
+          <button type="button" onClick={handleChangePageSize} data-cy="btn-update">Update</button>
         </div>
-        { errors && errors.itemsPerPage ? <ErrorMessage data-cy='err-page-size'>{errors.itemsPerPage}</ErrorMessage> : null }  
+        { errors && errors.itemsPerPage ? <ErrorMessage data-cy="err-page-size">{errors.itemsPerPage}</ErrorMessage> : null }
       </div>
     </Wrapper>
   )

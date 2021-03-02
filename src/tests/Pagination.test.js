@@ -15,7 +15,7 @@ it('Without props', () => {
 })
 
 it('Render all elements properly', () => {
-  const content = ReactDomServer.renderToString(<Pagination page={2} size={10} totalCount={25}/>)
+  const content = ReactDomServer.renderToString(<Pagination page={2} size={10} totalCount={25} />)
   expect(content).toMatch(/<div[^>]*data-cy="pagination"/g)
   expect(content).toMatch(/<button[^>]*data-cy="btn-prev"/g)
   expect(content).toMatch(/<button[^>]*data-cy="btn-next"/g)

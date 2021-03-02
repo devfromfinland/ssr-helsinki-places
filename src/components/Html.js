@@ -1,10 +1,11 @@
+/* eslint-disable react/no-array-index-key */
 // Page template from Bartek Dybowski
 // https://github.com/burczu/react-server-side-rendering-example/blob/master/src/components/Html.js
 
 import React from 'react'
 
 const Html = ({ children, context, scripts }) => (
-  <html>
+  <html lang="en">
     <head>
       <meta charSet="UTF-8" />
       <title>Helsinki places</title>
@@ -18,7 +19,7 @@ const Html = ({ children, context, scripts }) => (
       {context && (
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.APP_CONTEXT=${JSON.stringify(context)}`
+            __html: `window.APP_CONTEXT=${JSON.stringify(context)}`,
           }}
         />
       )}

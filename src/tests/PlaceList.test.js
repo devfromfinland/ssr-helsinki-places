@@ -5,7 +5,7 @@ import { places1, places12 } from '../mocks/mock-data'
 import { checkOpeningStatus } from '../utils/helpers'
 
 it('Show 1 item with name, address, and status', () => {
-  const content = ReactDomServer.renderToString(<PlaceList places={places1}/>)
+  const content = ReactDomServer.renderToString(<PlaceList places={places1} />)
   // console.log('content', content)
 
   expect(content).toMatch(/<div[^>]*data-cy="place-list"/g)
@@ -30,17 +30,17 @@ it('Show 1 item with name, address, and status', () => {
 })
 
 it('Show 12 items with name, address, and status', () => {
-  const content = ReactDomServer.renderToString(<PlaceList places={places12}/>)
+  const content = ReactDomServer.renderToString(<PlaceList places={places12} />)
   expect(content).toMatch(/<div[^>]*data-cy="place-list"/g)
 
-  let statusCount = {}
-  places12.forEach(place => {
+  const statusCount = {}
+  places12.forEach((place) => {
     const status = checkOpeningStatus(place.opening_hours)
 
     if (!statusCount[status]) {
       statusCount[status] = 1
     } else {
-      statusCount[status] = statusCount[status] + 1
+      statusCount[status] += 1
     }
   })
 
@@ -48,15 +48,15 @@ it('Show 12 items with name, address, and status', () => {
   const openStatus = content.match(/Open/g)
   const closedStatus = content.match(/Closed/g)
   const exceptionStatus = content.match(/with exception/g)
-  
+
   if (exceptionStatus) { expect(exceptionStatus).toHaveLength(statusCount['Open with exception']) }
-  if (closedStatus) { expect(closedStatus).toHaveLength(statusCount['Closed']) }
+  if (closedStatus) { expect(closedStatus).toHaveLength(statusCount.Closed) }
   if (openStatus && exceptionStatus) {
-    expect(openStatus).toHaveLength(statusCount['Open'] + statusCount['Open with exception'])
+    expect(openStatus).toHaveLength(statusCount.Open + statusCount['Open with exception'])
   } else if (openStatus) {
-    expect(openStatus).toHaveLength(statusCount['Open'])
+    expect(openStatus).toHaveLength(statusCount.Open)
   }
-  
+
   // render correct amount of places
   const items = content.match(/<div[^>]*data-testid="place-item-element"/g)
   expect(items).toHaveLength(12)

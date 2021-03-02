@@ -18,9 +18,9 @@ app.use('*', (req, res, next) => {
     req.url = path.basename(req.originalUrl)
 
     const staticPath = process.env.NODE_ENV === 'development'
-      ? path.join(path.dirname(require.main.filename) + '/build')
+      ? path.join(`${path.dirname(require.main.filename)}/build`)
       : path.join(__dirname)
-    
+
     express.static(staticPath)(req, res, next)
   } else {
     next()

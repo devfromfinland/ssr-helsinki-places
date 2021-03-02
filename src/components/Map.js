@@ -1,3 +1,4 @@
+/* global google */
 import React, { useState, useEffect } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import MarkerClusterer from '@googlemaps/markerclustererplus'
@@ -14,7 +15,7 @@ function Map({ places, highlightMarker }) {
 
   let map
   let infoWindow
- 
+
   useEffect(() => {
     loader
       .load()
@@ -26,16 +27,16 @@ function Map({ places, highlightMarker }) {
             lat: 60.17008291523957,
             lng: 24.938301287516396,
           },
-          zoom: 11
+          zoom: 11,
         })
 
-        const markers = locations.map(item => {
+        const markers = locations.map((item) => {
           const marker = new google.maps.Marker({
             position: item.location,
           })
 
           google.maps.event.addListener(marker, 'click', () => {
-            infoWindow.setContent(item.name['en'])
+            infoWindow.setContent(item.name.en)
             infoWindow.open(map, marker)
           })
 
@@ -50,12 +51,13 @@ function Map({ places, highlightMarker }) {
           return marker
         })
 
+        // eslint-disable-next-line no-unused-vars
         const markerCluster = new MarkerClusterer(map, markers, {
           imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
         })
       })
-      .catch(err => {
-        console.log('error while loading google map')
+      .catch((err) => {
+        console.log('error while loading google map', err)
         setIsError(true)
       })
   }, [places])
@@ -63,11 +65,14 @@ function Map({ places, highlightMarker }) {
   // if (isError) return <div id='map'></div>
 
   return (
-    <div id='map' style={{
-      flex: 1,
-      height: '100vh',
-      marginLeft: '20px',
-    }}>
+    <div
+      id="map"
+      style={{
+        flex: 1,
+        height: '100vh',
+        marginLeft: '20px',
+      }}
+    >
       { isError ? 'Could not load google map!' : null}
     </div>
   )
