@@ -6,7 +6,7 @@ const common = {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader',
+        use: ['babel-loader', 'eslint-loader'],
       },
     ],
   },

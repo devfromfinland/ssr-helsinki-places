@@ -17,7 +17,7 @@ const PlaceItem = ({ place, index, highlighted }) => {
       case 'Open':
         return <Status style={{ color: 'green' }}>Open</Status>
       case 'Closed':
-        return <Status style={{ color: 'red' }}>Closed</Status>
+        return <Status style={{ color: red }}>Closed</Status>
       case 'Open with exception':
         return <div>
           <Status style={{ color: 'green' }}>Open</Status>
