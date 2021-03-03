@@ -1,6 +1,6 @@
 import redis from 'redis'
 
-const REDIS_PORT = 6379
+const REDIS_PORT = process.env.REDIS_PORT || 6379
 
 export const redisClient = process.env.REDIS_URL
   ? redis.createClient(process.env.REDIS_URL)
