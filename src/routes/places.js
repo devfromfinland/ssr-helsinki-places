@@ -30,7 +30,8 @@ router.get('/', async (req, res) => {
   let isFailed = false
   let totalCount = 0
 
-  if (redisClient.connected) {
+  // disable redis in test to avoid complication
+  if (redisClient.connected && process.env.NODE_ENV !== 'test') {
     // check data from cache first
     redisClient.get(redisKey, async (err, data) => {
       if (err) throw err

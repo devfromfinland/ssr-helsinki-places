@@ -91,22 +91,22 @@ describe('Viewing places listing', () => {
     expect(res.text).toMatch(/<script src="client.js"><\/script>/)
   })
 
-  // it('API query error', async () => {
-  //   fetch.mockRejectedValueOnce(new Error('an error happened'))
+  it('API query error', async () => {
+    fetch.mockRejectedValueOnce(new Error('an error happened'))
 
-  //   const res = await endpoint.get('/places')
-  //   expect(res.status).toEqual(200)
+    const res = await endpoint.get('/places')
+    expect(res.status).toEqual(200)
 
-  //   // check contents still showing with error message
-  //   expect(res.text).toContain('Places of Helsinki')
-  //   expect(res.text)
-  //     .toContain('Could not load data, please refresh the page or try again later.')
+    // check contents still showing with error message
+    expect(res.text).toContain('Places of Helsinki')
+    expect(res.text)
+      .toContain('Could not load data, please refresh the page or try again later.')
 
-  //   // no other contents should show
-  //   expect(res.text).not.toMatch(/<div[^>]*data-cy="place-list"/g)
-  //   expect(res.text).not.toMatch(/<div[^>]*data-testid="place-item-element"/g)
-  //   expect(res.text).not.toMatch(/<div[^>]*id="map"/g)
-  // })
+    // no other contents should show
+    expect(res.text).not.toMatch(/<div[^>]*data-cy="place-list"/g)
+    expect(res.text).not.toMatch(/<div[^>]*data-testid="place-item-element"/g)
+    expect(res.text).not.toMatch(/<div[^>]*id="map"/g)
+  })
 
   it('404 page', async () => {
     const res = await endpoint.get('/not-exist-path')
