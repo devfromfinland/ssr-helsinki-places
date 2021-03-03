@@ -1,38 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { checkOpeningStatus } from '../utils/helpers'
+import OpeningStatus from './OpeningStatus'
 
 const PlaceItem = ({ place, index, highlighted }) => {
   if (!place) return <div>Empty item</div>
 
+  // console.log('place', place)
+
   // TODO: set default lang = en, change language in query and add to context if needed
   const lang = 'en'
-
-  // TODO: show link and Modal for exception opening hours
-  const status = checkOpeningStatus(place.opening_hours)
-
-  const renderStatus = () => {
-    switch (status) {
-      case 'Open':
-        return <Status style={{ color: 'green' }}>Open</Status>
-      case 'Closed':
-        return <Status style={{ color: 'red' }}>Closed</Status>
-      case 'Open with exception':
-        return (
-          <div>
-            <Status style={{ color: 'green' }}>Open</Status>
-            <div>with exception</div>
-          </div>
-        )
-      case 'No data':
-        return <Status>No data</Status>
-      case 'Invalid data':
-        return <Status>Invalid</Status>
-      default:
-        return <Status>Error</Status>
-    }
-  }
 
   let streetAddress = ''
   let postalCode = ''
@@ -55,7 +32,7 @@ const PlaceItem = ({ place, index, highlighted }) => {
         <Name>{place.name[lang]}</Name>
         <Address>{`${streetAddress}, ${postalCode} ${locality}`}</Address>
       </Left>
-      {renderStatus()}
+      <OpeningStatus openingHours={place.opening_hours} />
     </Wrapper>
   )
 }
@@ -78,13 +55,6 @@ const Name = styled.div`
 
 const Address = styled.div`
   color: grey;
-`
-
-const Status = styled.div`
-  color: black;
-  text-transform: uppercase;
-  font-weight: bold;
-  text-align: end;
 `
 
 PlaceItem.propTypes = {
