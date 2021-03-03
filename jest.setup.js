@@ -11,5 +11,6 @@ beforeEach(() => {})
 
 // Clean up after the tests are finished.
 afterAll(async () => {
+  jest.dontMock('node-fetch')
   await closeRedisClient()
 })
