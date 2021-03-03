@@ -8,6 +8,10 @@ import { places12, places1 } from '../mocks/mock-data'
 const endpoint = supertest(server)
 
 describe('Viewing places listing', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('Response is html format', async () => {
     fetch.mockImplementationOnce(() => {
       return new Promise((resolve) => resolve({
