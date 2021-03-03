@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // mock data with simplified version
 // data based on this query: http://open-api.myhelsinki.fi/v1/places/?limit=12&start=0&language_filter=en
 // total: 12 places
@@ -813,3 +814,51 @@ export const places1 = [
     },
   }
 ]
+
+export const open24h_fullWeek_noException = {
+  hours: [
+    {
+      weekday_id: 1,
+      opens: '10:00:00',
+      closes: '18:00:00',
+      open24h: true,
+    },
+    {
+      weekday_id: 2,
+      opens: '10:00:00',
+      closes: '18:00:00',
+      open24h: true,
+    },
+    {
+      weekday_id: 3,
+      opens: '10:00:00',
+      closes: '18:00:00',
+      open24h: true,
+    },
+    {
+      weekday_id: 4,
+      opens: '10:00:00',
+      closes: '18:00:00',
+      open24h: true,
+    },
+    {
+      weekday_id: 5,
+      opens: '10:00:00',
+      closes: '18:00:00',
+      open24h: true,
+    },
+    {
+      weekday_id: 6,
+      opens: '10:00:00',
+      closes: '17:00:00',
+      open24h: true,
+    },
+    {
+      weekday_id: 7,
+      opens: null,
+      closes: null,
+      open24h: true,
+    },
+  ],
+  openinghours_exception: '',
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import OpeningStatus from './OpeningStatus'
+import Status from './Status'
 
 const PlaceItem = ({ place, index, highlighted }) => {
   if (!place) return <div>Empty item</div>
@@ -32,7 +32,7 @@ const PlaceItem = ({ place, index, highlighted }) => {
         <Name>{place.name[lang]}</Name>
         <Address>{`${streetAddress}, ${postalCode} ${locality}`}</Address>
       </Left>
-      <OpeningStatus openingHours={place.opening_hours} />
+      <Status openingHours={place.opening_hours} />
     </Wrapper>
   )
 }

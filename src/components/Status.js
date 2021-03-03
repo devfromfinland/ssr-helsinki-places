@@ -3,40 +3,40 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { checkOpeningStatus } from '../utils/helpers'
 
-const OpeningStatus = ({ openingHours }) => {
-  if (!openingHours || !openingHours.hours) return <Status>No data</Status>
+const Status = ({ openingHours }) => {
+  if (!openingHours || !openingHours.hours) return <Wrapper>No data</Wrapper>
 
   const result = checkOpeningStatus(openingHours)
 
   switch (result) {
     case 'Open':
-      return <Status style={{ color: 'green' }}>Open</Status>
+      return <Wrapper style={{ color: 'green' }}>Open</Wrapper>
     case 'Closed':
-      return <Status style={{ color: 'red' }}>Closed</Status>
+      return <Wrapper style={{ color: 'red' }}>Closed</Wrapper>
     case 'Open with exception':
       // TODO: show link and Modal for exception opening hours
       return (
         <div>
-          <Status style={{ color: 'green' }}>Open</Status>
+          <Wrapper style={{ color: 'green' }}>Open</Wrapper>
           <div>with exception</div>
         </div>
       )
     case 'Invalid data':
-      return <Status>Invalid</Status>
+      return <Wrapper>Invalid</Wrapper>
     default:
-      return <Status>Error</Status>
+      return <Wrapper>Error</Wrapper>
   }
 }
 
-const Status = styled.div`
+const Wrapper = styled.div`
   color: black;
   text-transform: uppercase;
   font-weight: bold;
   text-align: end;
 `
 
-OpeningStatus.propTypes = {
+Status.propTypes = {
   openingHours: PropTypes.object
 }
 
-export default OpeningStatus
+export default Status
