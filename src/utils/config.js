@@ -3,5 +3,5 @@ module.exports = {
   DEFAULT_PAGE: 1,
   DEFAULT_LANGUAGE: 'en',
   API_BASE_URL: 'http://open-api.myhelsinki.fi/v1/places',
-  APP_VERSION: '1.0.4', // important for REDIS cache to refresh
+  APP_VERSION: '1.0.5', // important for REDIS cache to refresh
 }
